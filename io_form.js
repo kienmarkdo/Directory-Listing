@@ -55,7 +55,7 @@ app.post("/myaction", function (req, res) {
                 Directory: "Error: Invalid directory path. Please enter paste your full path by copying the directory address in File Explorer.",
             });
             // does not work right now for some reason
-            res.render("C:\\Users\\xkm669\\Downloads\\Nodejs Learning\\03 Console input output\\directory_form_page.html", { output: outputResults });
+            res.render(openHtmlPath, { output: outputResults });
             //throw err;
         } else {
             console.log("File extension: " + extStr + "\n");
@@ -75,7 +75,7 @@ app.post("/myaction", function (req, res) {
             console.log(resultStr);
             // don't know howto pass the key:value object itself so I need to convert it into a string first
             // TODO: Figure out how to send this as a relative path
-            res.render("C:\\Users\\xkm669\\Downloads\\Nodejs Learning\\03 Console input output\\directory_form_page.html", { output: resultStr });
+            res.render(openHtmlPath, { output: resultStr });
 
             outputResults = "";
         }

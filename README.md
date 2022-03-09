@@ -5,6 +5,6 @@ Serves as an introduction to server-side web development with Node.js, Express, 
 
 ### Uses the following npm packages
 
-express@4.17.3
-ejs@3.1.6
-open@8.4.0
+- express@4.17.3
+- ejs@3.1.6
+- open@8.4.0

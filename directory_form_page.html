@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Directory Listing</title>
+    </head>
+    <body>
+        <div id="directory">
+            <h1>Directory Input Form</h1>
+            <form action="http://127.0.0.1:8080/myaction" method="post">
+                <fieldset>
+                    <legend>Directory Details</legend>
+                    <label for="name">Enter full directory name:</label>
+                    <input type="text" id="name" name="name" placeholder="C:\Users\" />
+
+                    <br />
+                    <br />
+
+                    <label for="extension">Enter file extension for filtering:</label>
+                    <input type="text" id="extension" name="extension" placeholder="(e.g.: .js)" />
+
+                    <br />
+                    <br />
+
+                    <input type="submit" value="Submit" />
+                </fieldset>
+            </form>
+        </div>
+
+        <div id="display_results">
+            <h1>Results</h1>
+            <table id="results_table"></table>
+        </div>
+
+        <input type="button" value="Generate Table" onclick="CreateTableFromJSONString()" />
+        <hr />
+        <div id="showDirectory"></div>
+
+        <script type="text/javascript">
+            let output = "<%= output %>";
+
+            // decodes HTML string beacause for some reason res.render() sends the variable with a bunch of HTML encoded stuff
+            let textarea = document.createElement("textarea");
+            textarea.innerHTML = output;
+            output = textarea.value;
+
+            // view JSON string in console
+            console.log("hello\n");
+            console.log(output + "\n\n");
+            console.log("hello\n");
+            //console.log(JSON.stringify(output));
+
+            tableId = "results_table";
+
+            // https://www.encodedna.com/javascript/populate-json-data-to-html-table-using-javascript.htm
+            function CreateTableFromJSONString() {
+                let myFiles = JSON.parse(output);
+
+                // extract keys for the table's header
+                // ('filename', 'something.html')
+                let col = [];
+                for (let i = 0; i < myFiles.length; i++) {
+                    for (let key in myFiles[i]) {
+                        if (col.indexOf(key) === -1) {
+                            col.push(key);
+                        }
+                    }
+                }
+
+                // create a dynamic table
+                let table = document.createElement("table");
+
+                // create HTML table header row using the extracted headers above
+                let tr = table.insertRow(-1); // tablerow.
+
+                for (let i = 0; i < col.length; i++) {
+                    let th = document.createElement("th"); // table header.
+                    th.innerHTML = col[i];
+                    tr.appendChild(th);
+                }
+
+                // add JSON data to the table as rows
+                for (let i = 0; i < myFiles.length; i++) {
+                    tr = table.insertRow(-1);
+
+                    for (let j = 0; j < col.length; j++) {
+                        let tabCell = tr.insertCell(-1);
+                        tabCell.innerHTML = myFiles[i][col[j]];
+                    }
+                }
+
+                // add the newly created table with JSON data into a container
+                let divContainer = document.getElementById("showDirectory");
+                divContainer.innerHTML = "";
+                divContainer.appendChild(table);
+            }
+        </script>
+    </body>
+</html>
